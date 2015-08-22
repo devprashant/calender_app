@@ -31,6 +31,9 @@ public class MainActivity extends ListActivity {
     private static final String TAG_ROOM_NO = "room_no";
     private static final String TAG_SLOT = "slot";
 
+    //tmp hashmap for single contact
+    HashMap<String, String> contact = new HashMap<String, String>();
+
 
     //Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
@@ -89,8 +92,7 @@ public class MainActivity extends ListActivity {
 
 
 
-                        //tmp hashmap for single contact
-                        HashMap<String, String> contact = new HashMap<String, String>();
+
 
                         //adding each child node to HashMap key => value
                         contact.put(TAG_SUBJECT_NAME,subject_name);
