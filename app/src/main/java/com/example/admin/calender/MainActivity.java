@@ -6,7 +6,6 @@ package com.example.admin.calender;
         import android.os.Bundle;
         import android.util.Log;
         import android.widget.ListAdapter;
-        import android.widget.ListView;
         import android.widget.SimpleAdapter;
 
         import org.json.JSONArray;
@@ -28,17 +27,10 @@ public class MainActivity extends ListActivity {
 
     //JSON Node names
 
-    private static  final String TAG_EVENT = "event";
-    private static final String TAG_TITLE = "title";
-    private static final String TAG_ST = "st";
-    private static final String TAG_ET = "et";
     private static final String TAG_SUBJECT_NAME = "subject_name";
     private static final String TAG_ROOM_NO = "room_no";
     private static final String TAG_SLOT = "slot";
 
-
-    //contacts JSONArray
-    JSONArray contacts = null;
 
     //Hashmap for ListView
     ArrayList<HashMap<String, String>> contactList;
@@ -82,10 +74,6 @@ public class MainActivity extends ListActivity {
 
             if(jsonStr != null){
                 try {
-                    //JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    //Getting JSON Array node
-                    //contacts = jsonObj.getJSONArray(TAG_EVENT);
 
                     JSONArray schedule = new JSONArray(jsonStr);
 
@@ -117,7 +105,7 @@ public class MainActivity extends ListActivity {
                     e.printStackTrace();
                 }
             } else {
-                Log.e("Serviehandler", "Couldn't get any data from the url");
+                Log.e("Servicehandler", "Couldn't get any data from the url");
             }
             return null;
         }
