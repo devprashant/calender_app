@@ -34,7 +34,7 @@ public class CalenderDataSource {
         dbHelper.close();
     }
 
-    public Schedule createSchedule(String subject_name, String room_no, String time) {
+    public void createSchedule(String subject_name, String room_no, String time) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_SUBJECT_NAME, subject_name);
         values.put(MySQLiteHelper.COLUMN_ROOM_NO, room_no);
@@ -47,7 +47,7 @@ public class CalenderDataSource {
         cursor.moveToFirst();
         Schedule newSchedule = cursorToComment(cursor);
         cursor.close();
-        return newSchedule;
+
     }
 
     public void deleteFullSchedule() {

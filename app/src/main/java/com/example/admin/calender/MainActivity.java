@@ -12,8 +12,10 @@ package com.example.admin.calender;
         import org.json.JSONException;
         import org.json.JSONObject;
 
+        import java.sql.SQLException;
         import java.util.ArrayList;
         import java.util.HashMap;
+        import java.util.Map;
 
 /**
  * Created by Admin on 8/21/2015.
@@ -21,6 +23,7 @@ package com.example.admin.calender;
 public class MainActivity extends ListActivity {
 
     private ProgressDialog pDialog;
+    public CalenderDataSource datasource = new CalenderDataSource(this);
 
     //URL to get contacts json
     private static String url = "https://nodejs-calender-prashantdawar.c9.io/shedule/btech/mon/cse1.json";
@@ -36,24 +39,24 @@ public class MainActivity extends ListActivity {
 
 
     //Hashmap for ListView
-    ArrayList<HashMap<String, String>> contactList;
+    ArrayList<HashMap<String, String>> scheduleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        contactList = new ArrayList<HashMap<String, String>>();
+        scheduleList = new ArrayList<HashMap<String, String>>();
 
 
         //Calling async task to get json
-        new GetContacts().execute();
+        new GetSchedule().execute();
     }
 
     /**
      * Async task class to get json by making HTTP call
      */
-    private class GetContacts extends AsyncTask<Void, Void, Void>{
+    private class GetSchedule extends AsyncTask<Void, Void, Void>{
 
         @Override
         protected void onPreExecute() {
@@ -90,10 +93,6 @@ public class MainActivity extends ListActivity {
                         String room_no = c.getString(TAG_ROOM_NO);
                         String slot = c.getString(TAG_SLOT);
 
-
-
-
-
                         //adding each child node to HashMap key => value
                         contact.put(TAG_SUBJECT_NAME,subject_name);
                         contact.put(TAG_ROOM_NO, room_no);
@@ -101,7 +100,7 @@ public class MainActivity extends ListActivity {
 
 
                         //adding contact to contact list
-                        contactList.add(contact);
+                        scheduleList.add(contact);
                     }
                 } catch (JSONException e){
                     e.printStackTrace();
@@ -124,12 +123,29 @@ public class MainActivity extends ListActivity {
                  * Updating Parsed json data into ListView
                  */
                 ListAdapter adapter = new SimpleAdapter(
-                        MainActivity.this, contactList,
+                        MainActivity.this, scheduleList,
                         R.layout.list_item, new String[] {
                         TAG_SUBJECT_NAME, TAG_ROOM_NO,TAG_SLOT
                 }, new int[] {
                         R.id.name,R.id.email,R.id.mobile
                 });
+
+                for (HashMap<String, String> map : scheduleList) {
+                    String[] key = null;
+                    String[] value = null;
+                    int i =0;
+                    for (Map.Entry<String, String> mapEntry : map.entrySet()) {
+                        key[i] = mapEntry.getKey();
+                        value[i] = mapEntry.getValue();
+                        i++;
+                    }
+                    try {
+                        datasource.open();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    datasource.createSchedule(value[0], value[1], value[2]);
+                }
 
                 setListAdapter(adapter);
             }

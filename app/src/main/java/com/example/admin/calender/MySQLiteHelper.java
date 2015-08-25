@@ -19,7 +19,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "calender.db";
     private static final int DATABASE_VERSION = 1;
 
-    // Databse creation sql statemnet
+    // Database creation sql statemnet
     private static final String DATABASE_CREATE = "create table "
             + TABLE_CALENDER + "(" + COLUMN_ID
             + " integer primary key autoincrement, " +  COLUMN_SUBJECT_NAME
